@@ -1,7 +1,18 @@
+using pg.demo.example.login.app.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<DummyDbContext>();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+	.AddCookie(options =>
+	{
+		options.LoginPath = "/account/login";
+		options.ExpireTimeSpan = TimeSpan.FromMinutes(25);
+		options.AccessDeniedPath = "/home/notallowedview";
+	});
 
 var app = builder.Build();
 
@@ -18,10 +29,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
 	name: "default",
-	pattern: "{controller=Home}/{action=Index}/{id?}");
+	pattern: "{controller=Account}/{action=Login}");
 
 app.Run();
