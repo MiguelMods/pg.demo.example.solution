@@ -18,6 +18,16 @@ namespace pg.demo.example.login.app.Controllers
 			return View();
 		}
 
+		public IActionResult FormOne() 
+		{
+			return View();
+		}
+
+		public IActionResult FormTwo() 
+		{
+			return View();
+		}
+
 		public IActionResult Privacy()
 		{
 			return View();
